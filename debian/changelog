@@ -1,3 +1,9 @@
+gcc-11 (11.2.0-deepin1) UNRELEASED; urgency=medium
+
+  * Add pie support on Deepin and Uos.
+
+ -- Tianyu Chen <chentianyu1@uniontech.com>  Tue, 14 Mar 2023 14:12:23 +0800
+
 gcc-11 (11.2.0-deepin) stable; urgency=medium
 
   * Update gcc version to 11.2.0
