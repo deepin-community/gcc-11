@@ -1,3 +1,9 @@
+gcc-11 (11.2.0-deepin2) unstable; urgency=medium
+
+  * Disable pie on sw64 and sw_64.
+
+ -- Tianyu Chen <chentianyu1@uniontech.com>  Wed, 15 Mar 2023 16:24:58 +0800
+
 gcc-11 (11.2.0-deepin1) unstable; urgency=medium
 
   * Add pie support on Deepin and Uos.
