@@ -21,6 +21,7 @@ ifneq ($(GFDL_INVARIANT_FREE),yes)
   debian_patches += \
 	git-doc-updates \
 	rename-info-files \
+	gcc-mold-doc \
 
 #	git-doc-updates \
 
@@ -49,6 +50,7 @@ debian_patches += \
 	gcc-auto-build \
 	libitm-no-fortify-source \
 	sparc64-biarch-long-double-128 \
+	sparc64-v8plus-default \
 	pr66368 \
 	pr67590 \
 	libffi-pax \
@@ -64,6 +66,10 @@ debian_patches += \
 	gcc-arm-disable-guality-tests \
 	musl-ssp \
 	arm-arch-extensions \
+	gcc-mold \
+	arc-stddef \
+	pr107475 \
+	libstdc++-hurd \
 
 ifneq (,$(filter $(distrelease),precise xenial bionic focal groovy hirsute))
   debian_patches += pr100067-revert
@@ -141,9 +147,6 @@ endif
 
 ifeq ($(GFDL_INVARIANT_FREE),yes)
   debian_patches += gdc-texinfo
-endif
-ifneq ($(with_phobos),yes)
-  debian_patches += gdc-driver-nophobos
 endif
 ifeq (,$(filter $(DEB_TARGET_ARCH),amd64 i386 armhf))
   debian_patches += disable-gdc-tests

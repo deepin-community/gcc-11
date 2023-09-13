@@ -13,9 +13,6 @@ dnl ifdef(`ARCH',		, errexit(`ARCH'))
 dnl The architecture will also be defined (-D__i386__, -D__powerpc__, etc.)
 
 define(`PN', `$1')
-ifdef(`PRI', `', `
-    define(`PRI', `$1')
-')
 define(`MAINTAINER', `Debian GCC Maintainers <debian-gcc@lists.debian.org>')
 
 define(`depifenabled', `ifelse(index(enabled_languages, `$1'), -1, `', `$2')')
@@ -44,7 +41,7 @@ divert`'dnl
 dnl --------------------------------------------------------------------------
 Source: SRCNAME
 Section: devel
-Priority: PRI(optional)
+Priority: optional
 ifelse(DIST,`Ubuntu',`dnl
 ifelse(regexp(SRCNAME, `gnat\|gdc-'),0,`dnl
 Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
@@ -62,7 +59,7 @@ Uploaders: Iain Buclaw <ibuclaw@ubuntu.com>, Matthias Klose <doko@debian.org>
 ', `dnl
 Uploaders: Matthias Klose <doko@debian.org>
 ')dnl SRCNAME
-Standards-Version: 4.5.1
+Standards-Version: 4.6.2
 ifdef(`TARGET',`dnl cross
 Build-Depends: DEBHELPER_BUILD_DEP DPKG_BUILD_DEP
   LIBC_BUILD_DEP, LIBC_BIARCH_BUILD_DEP
@@ -100,8 +97,8 @@ Homepage: http://gdcproject.org/
 ', `dnl
 Homepage: http://gcc.gnu.org/
 ')dnl SRCNAME
-Vcs-Browser: https://salsa.debian.org/toolchain-team/gcc
-Vcs-Git: https://salsa.debian.org/toolchain-team/gcc.git
+Vcs-Browser: https://salsa.debian.org/toolchain-team/gcc/tree/gcc-11-debian
+Vcs-Git: https://salsa.debian.org/toolchain-team/gcc.git -b gcc-11-debian
 XS-Testsuite: autopkgtest
 
 ifelse(regexp(SRCNAME, `gcc-snapshot'),0,`dnl
@@ -150,7 +147,6 @@ Package: gcc`'PV`'TS-base
 Architecture: any
 Multi-Arch: same
 Section: ifdef(`TARGET',`devel',`libs')
-Priority: ifdef(`TARGET',`optional',`PRI(required)')
 Depends: ${misc:Depends}
 Replaces: ${base:Replaces}
 Breaks: ${base:Breaks}
@@ -169,7 +165,6 @@ ifenabled(`gcclbase',`
 Package: gcc`'PV-cross-base`'GCC_PORTS_BUILD
 Architecture: all
 Section: ifdef(`TARGET',`devel',`libs')
-Priority: ifdef(`TARGET',`optional',`PRI(required)')
 Depends: ${misc:Depends}
 BUILT_USING`'dnl
 Description: GCC, the GNU Compiler Collection (library base package)
@@ -187,7 +182,6 @@ Package: gnat`'PV-base`'TS
 Architecture: any
 # "all" causes build instabilities for "any" dependencies (see #748388).
 Section: libs
-Priority: PRI(optional)
 Depends: ${misc:Depends}
 BUILT_USING`'dnl
 Description: GNU Ada compiler (common files)
@@ -460,6 +454,8 @@ Depends: BASELDEP, ${dep:libgcc}, ${dep:libssp}, ${dep:libgomp}, ${dep:libitm},
  ${dep:libatomic}, ${dep:libbtrace}, ${dep:libasan}, ${dep:liblsan},
  ${dep:libtsan}, ${dep:libubsan}, ${dep:libhwasan}, ${dep:libvtv},
  ${dep:libqmath}, ${dep:libunwinddev}, ${shlibs:Depends}, ${misc:Depends}
+Breaks: libtsan`'TSAN_SO`'LS (<< 11.2.0-11)
+Replaces: libtsan`'TSAN_SO`'LS (<< 11.2.0-11)
 ifdef(`MULTIARCH', `Multi-Arch: same
 ')`'dnl
 BUILT_USING`'dnl
@@ -1097,7 +1093,6 @@ Architecture: ifdef(`TARGET',`any',hppa amd64 i386 x32)
 ifdef(`TARGET',`Multi-Arch: foreign
 ')dnl
 Section: devel
-Priority: PRI(optional)
 Depends: BASEDEP, gcc`'PV`'TS (= ${gcc:Version}),
   binutils-hppa64-linux-gnu | binutils-hppa64,
   ${shlibs:Depends}, ${misc:Depends}
@@ -1133,7 +1128,6 @@ ifenabled(`gfdldoc',`
 Package: cpp`'PV-doc
 Architecture: all
 Section: doc
-Priority: PRI(optional)
 Depends: gcc`'PV-base (>= ${gcc:SoftVersion}), ${misc:Depends}
 Description: Documentation for the GNU C preprocessor (cpp)
  Documentation for the GNU C preprocessor in info `format'.
@@ -1144,7 +1138,6 @@ ifdef(`TARGET', `', `
 Package: gcc`'PV-locales
 Architecture: all
 Section: devel
-Priority: PRI(optional)
 Depends: SOFTBASEDEP, cpp`'PV (>= ${gcc:SoftVersion}), ${misc:Depends}
 Recommends: gcc`'PV (>= ${gcc:SoftVersion})
 Description: GCC, the GNU compiler collection (native language support files)
@@ -1203,7 +1196,6 @@ ifdef(`MULTIARCH', `Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 ')`'dnl
 Section: libs
-Priority: PRI(optional)
 Depends: BASELDEP, ${shlibs:Depends}, ${misc:Depends}
 BUILT_USING`'dnl
 Description: GCC stack smashing protection library
@@ -1215,7 +1207,6 @@ Package: lib32ssp`'SSP_SO`'LS
 TARGET_PACKAGE`'dnl
 Architecture: biarch32_archs
 Section: libs
-Priority: PRI(optional)
 Depends: BASELDEP, ${dep:libcbiarch}, ${shlibs:Depends}, ${misc:Depends}
 Replaces: libssp0 (<< 4.1)
 Conflicts: ${confl:lib32}
@@ -1229,7 +1220,6 @@ Package: lib64ssp`'SSP_SO`'LS
 TARGET_PACKAGE`'dnl
 Architecture: biarch64_archs
 Section: libs
-Priority: PRI(optional)
 Depends: BASELDEP, ${dep:libcbiarch}, ${shlibs:Depends}, ${misc:Depends}
 Replaces: libssp0 (<< 4.1)
 BUILT_USING`'dnl
@@ -1242,7 +1232,6 @@ Package: libn32ssp`'SSP_SO`'LS
 TARGET_PACKAGE`'dnl
 Architecture: biarchn32_archs
 Section: libs
-Priority: PRI(optional)
 Depends: BASELDEP, ${dep:libcbiarch}, ${shlibs:Depends}, ${misc:Depends}
 Replaces: libssp0 (<< 4.1)
 BUILT_USING`'dnl
@@ -1255,7 +1244,6 @@ Package: libx32ssp`'SSP_SO`'LS
 TARGET_PACKAGE`'dnl
 Architecture: biarchx32_archs
 Section: libs
-Priority: PRI(optional)
 Depends: BASELDEP, ${dep:libcbiarch}, ${shlibs:Depends}, ${misc:Depends}
 Replaces: libssp0 (<< 4.1)
 BUILT_USING`'dnl
@@ -1268,7 +1256,6 @@ Package: libhfssp`'SSP_SO`'LS
 TARGET_PACKAGE`'dnl
 Architecture: biarchhf_archs
 Section: libs
-Priority: PRI(optional)
 Depends: BASELDEP, ${dep:libcbiarch}, ${shlibs:Depends}, ${misc:Depends}
 BUILT_USING`'dnl
 Description: GCC stack smashing protection library (hard float ABI)
@@ -1280,7 +1267,6 @@ Package: libsfssp`'SSP_SO`'LS
 TARGET_PACKAGE`'dnl
 Architecture: biarchsf_archs
 Section: libs
-Priority: PRI(optional)
 Depends: BASELDEP, ${dep:libcbiarch}, ${shlibs:Depends}, ${misc:Depends}
 BUILT_USING`'dnl
 Description: GCC stack smashing protection library (soft float ABI)
@@ -3306,7 +3292,7 @@ Package: libgccjit`'PV-doc
 Section: doc
 Architecture: all
 Priority: optional
-Depends: BASEDEP, ${misc:Depends}
+Depends: gcc`'PV-base (>= ${gcc:SoftVersion}), ${misc:Depends}
 Conflicts: libgccjit-5-doc, libgccjit-6-doc, libgccjit-7-doc, libgccjit-8-doc,
   libgccjit-9-doc, libgccjit-10-doc,
 Description: GCC just-in-time compilation (documentation)
@@ -3708,7 +3694,6 @@ ifenabled(`gfdldoc',`
 Package: gfortran`'PV-doc
 Architecture: all
 Section: doc
-Priority: PRI(optional)
 Depends: gcc`'PV-base (>= ${gcc:SoftVersion}), ${misc:Depends}
 Description: Documentation for the GNU Fortran compiler (gfortran)
  Documentation for the GNU Fortran compiler in info `format'.
@@ -4037,7 +4022,6 @@ ifenabled(`gfdldoc',`
 Package: gccgo`'PV-doc
 Architecture: all
 Section: doc
-Priority: PRI(optional)
 Depends: gcc`'PV-base (>= ${gcc:SoftVersion}), ${misc:Depends}
 BUILT_USING`'dnl
 Description: Documentation for the GNU Go compiler (gccgo)
@@ -4852,7 +4836,6 @@ ifdef(`TARGET', `', `
 Package: libstdc++`'PV-doc
 Architecture: all
 Section: doc
-Priority: PRI(optional)
 Depends: gcc`'PV-base (>= ${gcc:SoftVersion}), ${misc:Depends}
 Conflicts: libstdc++5-doc, libstdc++5-3.3-doc, libstdc++6-doc,
  libstdc++6-4.0-doc, libstdc++6-4.1-doc, libstdc++6-4.2-doc, libstdc++6-4.3-doc,
@@ -4958,7 +4941,6 @@ ifenabled(`lib64gnat',`
 Package: lib64gnat`'-GNAT_V
 Section: libs
 Architecture: biarch64_archs
-Priority: PRI(optional)
 Depends: BASELDEP, ${dep:libcbiarch}, ${shlibs:Depends}, ${misc:Depends}
 BUILT_USING`'dnl
 Description: runtime for applications compiled with GNAT (64 bits shared library)
@@ -4975,7 +4957,6 @@ ifenabled(`gfdldoc',`
 Package: gnat`'PV-doc
 Architecture: all
 Section: doc
-Priority: PRI(optional)
 Depends: ${misc:Depends}
 Suggests: gnat`'PV
 Conflicts: gnat-4.9-doc,
@@ -6034,7 +6015,6 @@ ifdef(`TARGET',`',`dnl
 ifenabled(`libs',`
 #Package: gcc`'PV-soft-float
 #Architecture: arm armel armhf
-#Priority: PRI(optional)
 #Depends: BASEDEP, depifenabled(`cdev',`gcc`'PV (= ${gcc:Version}),') ${shlibs:Depends}, ${misc:Depends}
 #Conflicts: gcc-4.4-soft-float, gcc-4.5-soft-float, gcc-4.6-soft-float
 #BUILT_USING`'dnl
@@ -6050,7 +6030,6 @@ ifenabled(`gfdldoc',`
 Package: gcc`'PV-doc
 Architecture: all
 Section: doc
-Priority: PRI(optional)
 Depends: gcc`'PV-base (>= ${gcc:SoftVersion}), ${misc:Depends}
 Conflicts: gcc-docs (<< 2.95.2)
 Replaces: gcc (<=2.7.2.3-4.3), gcc-docs (<< 2.95.2)
@@ -6134,7 +6113,6 @@ ifdef(`TARGET',`',`dnl
 ifenabled(`libnof',`
 #Package: gcc`'PV-nof
 #Architecture: powerpc
-#Priority: PRI(optional)
 #Depends: BASEDEP, ${shlibs:Depends}ifenabled(`cdev',`, gcc`'PV (= ${gcc:Version})'), ${misc:Depends}
 #Conflicts: gcc-3.2-nof
 #BUILT_USING`'dnl
@@ -6148,7 +6126,6 @@ ifenabled(`source',`
 Package: gcc`'PV-source
 Multi-Arch: foreign
 Architecture: all
-Priority: PRI(optional)
 Depends: make, quilt, patchutils, sharutils, gawk, lsb-release, time, AUTO_BUILD_DEP
   ${misc:Depends}
 Description: Source of the GNU Compiler Collection

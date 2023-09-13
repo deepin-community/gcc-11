@@ -25,14 +25,9 @@
 # include $(wildcard /usr/share/ada/debian_packaging-$(gnat_version).mk)
 # # The wilcard is useful when Build-Depends-Indep does not contain gnat-BV.
 
-# dpkg-dev provides /usr/share/dpkg/default.mk (or the
-# more specific buildflags.mk and buildopts.mk) to set standard variables like
-# CFLAGS, LDFLAGS...  according to the build
-# environment (DEB_BUILD_OPTIONS...) and the policy (hardening
-# flags...).
-# You must include it before this file.
-ifneq(2,$(words $(filter /usr/share/dpkg/buildflags.mk \
-                         /usr/share/dpkg/buildopts.mk,$(MAKEFILE_LIST))))
+# This file requires /usr/share/dpkg/build{flags,opts}.mk.
+ifneq (2,$(words $(filter /usr/share/dpkg/buildflags.mk \
+                          /usr/share/dpkg/buildopts.mk,$(MAKEFILE_LIST))))
   $(error Please include /usr/share/dpkg/default.mk (or the more specific \
           buildflags.mk and buildopts.mk) before $(lastword $(MAKEFILE_LIST)))
 endif

@@ -30,7 +30,7 @@
  #include "arm-cpu-cdata.h"
 --- a/src/gcc/config.in
 +++ b/src/gcc/config.in
-@@ -1312,6 +1312,13 @@
+@@ -1331,6 +1331,13 @@
  #endif
  
  
@@ -46,7 +46,7 @@
  #undef HAVE_GAS_BALIGN_AND_P2ALIGN
 --- a/src/gcc/configure.ac
 +++ b/src/gcc/configure.ac
-@@ -5358,6 +5358,16 @@ case "$cpu_type" in
+@@ -5536,6 +5536,16 @@ case "$cpu_type" in
    mmix)
      insn="swym 0"
      ;;

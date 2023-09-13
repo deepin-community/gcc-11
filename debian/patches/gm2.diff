@@ -21,7 +21,7 @@
  AC_ARG_ENABLE(libssp,
  [AS_HELP_STRING([--enable-libssp], [build libssp directory])],
  ENABLE_LIBSSP=$enableval,
-@@ -3504,6 +3511,7 @@ NCN_STRICT_CHECK_TARGET_TOOLS(GCC_FOR_TA
+@@ -3521,6 +3528,7 @@ NCN_STRICT_CHECK_TARGET_TOOLS(GCC_FOR_TA
  NCN_STRICT_CHECK_TARGET_TOOLS(GFORTRAN_FOR_TARGET, gfortran)
  NCN_STRICT_CHECK_TARGET_TOOLS(GOC_FOR_TARGET, gccgo)
  NCN_STRICT_CHECK_TARGET_TOOLS(GDC_FOR_TARGET, gdc)
@@ -29,7 +29,7 @@
  
  ACX_CHECK_INSTALLED_TARGET_TOOL(AR_FOR_TARGET, ar)
  ACX_CHECK_INSTALLED_TARGET_TOOL(AS_FOR_TARGET, as)
-@@ -3540,6 +3548,8 @@ GCC_TARGET_TOOL(gccgo, GOC_FOR_TARGET, G
+@@ -3559,6 +3567,8 @@ GCC_TARGET_TOOL(gccgo, GOC_FOR_TARGET, G
  		[gcc/gccgo -B$$r/$(HOST_SUBDIR)/gcc/], go)
  GCC_TARGET_TOOL(gdc, GDC_FOR_TARGET, GDC,
  		[gcc/gdc -B$$r/$(HOST_SUBDIR)/gcc/], d)
@@ -38,7 +38,7 @@
  GCC_TARGET_TOOL(ld, LD_FOR_TARGET, LD, [ld/ld-new])
  GCC_TARGET_TOOL(lipo, LIPO_FOR_TARGET, LIPO)
  GCC_TARGET_TOOL(nm, NM_FOR_TARGET, NM, [binutils/nm-new])
-@@ -3666,6 +3676,8 @@ AC_SUBST(stage2_werror_flag)
+@@ -3685,6 +3695,8 @@ AC_SUBST(stage2_werror_flag)
  # Specify what files to not compare during bootstrap.
  
  compare_exclusions="gcc/cc*-checksum\$(objext) | gcc/ada/*tools/*"
@@ -85,7 +85,7 @@
 +}
 --- a/src/gcc/gcc.c
 +++ b/src/gcc/gcc.c
-@@ -333,6 +333,10 @@ static const char *cross_compile = "1";
+@@ -335,6 +335,10 @@ static const char *cross_compile = "1";
  static const char *cross_compile = "0";
  #endif
  
@@ -96,7 +96,7 @@
  /* Greatest exit code of sub-processes that has been encountered up to
     now.  */
  static int greatest_status = 1;
-@@ -361,7 +365,6 @@ static void set_spec (const char *, cons
+@@ -363,7 +367,6 @@ static void set_spec (const char *, cons
  static struct compiler *lookup_compiler (const char *, size_t, const char *);
  static char *build_search_list (const struct path_prefix *, const char *,
  				bool, bool);
@@ -104,7 +104,7 @@
  static void putenv_from_prefixes (const struct path_prefix *, const char *,
  				  bool);
  static int access_check (const char *, int);
-@@ -1238,6 +1241,7 @@ proper position among the other output f
+@@ -1240,6 +1243,7 @@ proper position among the other output f
  /* We pass any -flto flags on to the linker, which is expected
     to understand them.  In practice, this means it had better be collect2.  */
  /* %{e*} includes -export-dynamic; see comment in common.opt.  */
@@ -112,7 +112,7 @@
  #ifndef LINK_COMMAND_SPEC
  #define LINK_COMMAND_SPEC "\
  %{!fsyntax-only:%{!c:%{!M:%{!MM:%{!E:%{!S:\
-@@ -1874,6 +1878,10 @@ static const struct spec_function static
+@@ -1876,6 +1880,10 @@ static const struct spec_function static
    { 0, 0 }
  };
  
@@ -123,7 +123,7 @@
  static int processing_spec_function;
  
  /* Add appropriate libgcc specs to OBSTACK, taking into account
-@@ -3037,12 +3045,20 @@ add_to_obstack (char *path, void *data)
+@@ -3039,12 +3047,20 @@ add_to_obstack (char *path, void *data)
  
  /* Add or change the value of an environment variable, outputting the
     change to standard error if in verbose mode.  */
@@ -145,7 +145,7 @@
  /* Build a list of search directories from PATHS.
     PREFIX is a string to prepend to the list.
     If CHECK_DIR_P is true we ensure the directory exists.
-@@ -3989,7 +4005,7 @@ alloc_switch (void)
+@@ -3996,7 +4012,7 @@ alloc_switch (void)
  /* Save an option OPT with N_ARGS arguments in array ARGS, marking it
     as validated if VALIDATED and KNOWN if it is an internal switch.  */
  
@@ -154,7 +154,7 @@
  save_switch (const char *opt, size_t n_args, const char *const *args,
  	     bool validated, bool known)
  {
-@@ -4034,6 +4050,66 @@ set_source_date_epoch_envvar ()
+@@ -4041,6 +4057,66 @@ set_source_date_epoch_envvar ()
    setenv ("SOURCE_DATE_EPOCH", source_date_epoch, 0);
  }
  
@@ -221,7 +221,7 @@
  /* Handle an option DECODED that is unknown to the option-processing
     machinery.  */
  
-@@ -4535,33 +4611,7 @@ driver_handle_option (struct gcc_options
+@@ -4546,33 +4622,7 @@ driver_handle_option (struct gcc_options
        break;
  
      case OPT_B:
@@ -256,7 +256,7 @@
        validated = true;
        break;
  
-@@ -4684,6 +4734,68 @@ single_input_file_index ()
+@@ -4697,6 +4747,68 @@ single_input_file_index ()
    return ret;
  }
  
@@ -325,7 +325,7 @@
  /* Create the vector `switches' and its contents.
     Store its length in `n_switches'.  */
  
-@@ -6848,6 +6960,33 @@ do_spec_1 (const char *spec, int inswitc
+@@ -6862,6 +6974,33 @@ do_spec_1 (const char *spec, int inswitc
    return 0;
  }
  
@@ -359,7 +359,7 @@
  /* Look up a spec function.  */
  
  static const struct spec_function *
-@@ -6859,6 +6998,11 @@ lookup_spec_function (const char *name)
+@@ -6873,6 +7012,11 @@ lookup_spec_function (const char *name)
      if (strcmp (sf->name, name) == 0)
        return sf;
  
@@ -371,7 +371,7 @@
    return NULL;
  }
  
-@@ -8345,6 +8489,8 @@ driver::set_up_specs () const
+@@ -8359,6 +8503,8 @@ driver::set_up_specs () const
  			   accel_dir_suffix, dir_separator_str, NULL);
    just_machine_suffix = concat (spec_machine, dir_separator_str, NULL);
  
@@ -380,7 +380,7 @@
    specs_file = find_a_file (&startfile_prefixes, "specs", R_OK, true);
    /* Read the specs file unless it is a default one.  */
    if (specs_file != 0 && strcmp (specs_file, "specs"))
-@@ -9075,7 +9221,8 @@ driver::maybe_run_linker (const char *ar
+@@ -9089,7 +9235,8 @@ driver::maybe_run_linker (const char *ar
  
    /* Run ld to link all the compiler output files.  */
  
@@ -390,7 +390,7 @@
      {
        int tmp = execution_count;
  
-@@ -9144,7 +9291,7 @@ driver::maybe_run_linker (const char *ar
+@@ -9158,7 +9305,7 @@ driver::maybe_run_linker (const char *ar
    /* If options said don't run linker,
       complain about input files to be given to the linker.  */
  
@@ -449,7 +449,7 @@
  target_modules = { module= libgomp; bootstrap= true; lib_path=.libs; };
  target_modules = { module= libitm; lib_path=.libs; };
  target_modules = { module= libatomic; lib_path=.libs; };
-@@ -298,6 +299,8 @@ flags_to_pass = { flag= GOC_FOR_TARGET ;
+@@ -299,6 +300,8 @@ flags_to_pass = { flag= GOC_FOR_TARGET ;
  flags_to_pass = { flag= GOCFLAGS_FOR_TARGET ; };
  flags_to_pass = { flag= GDC_FOR_TARGET ; };
  flags_to_pass = { flag= GDCFLAGS_FOR_TARGET ; };
@@ -458,7 +458,7 @@
  flags_to_pass = { flag= LD_FOR_TARGET ; };
  flags_to_pass = { flag= LIPO_FOR_TARGET ; };
  flags_to_pass = { flag= LDFLAGS_FOR_TARGET ; };
-@@ -651,6 +654,7 @@ languages = { language=obj-c++;	gcc-chec
+@@ -652,6 +655,7 @@ languages = { language=obj-c++;	gcc-chec
  languages = { language=go;	gcc-check-target=check-go;
  				lib-check-target=check-target-libgo;
  				lib-check-target=check-gotools; };
@@ -468,15 +468,15 @@
  languages = { language=d;	gcc-check-target=check-d;
 --- a/src/Makefile.in
 +++ b/src/Makefile.in
-@@ -158,6 +158,7 @@ BUILD_EXPORTS = \
+@@ -161,6 +161,7 @@ BUILD_EXPORTS = \
  	GOCFLAGS="$(GOCFLAGS_FOR_BUILD)"; export GOCFLAGS; \
  	GDC="$(GDC_FOR_BUILD)"; export GDC; \
  	GDCFLAGS="$(GDCFLAGS_FOR_BUILD)"; export GDCFLAGS; \
 +	GM2="$(GM2_FOR_BUILD)"; export GM2; \
  	DLLTOOL="$(DLLTOOL_FOR_BUILD)"; export DLLTOOL; \
+ 	DSYMUTIL="$(DSYMUTIL_FOR_BUILD)"; export DSYMUTIL; \
  	LD="$(LD_FOR_BUILD)"; export LD; \
- 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"; export LDFLAGS; \
-@@ -195,6 +196,7 @@ HOST_EXPORTS = \
+@@ -199,6 +200,7 @@ HOST_EXPORTS = \
  	GFORTRAN="$(GFORTRAN)"; export GFORTRAN; \
  	GOC="$(GOC)"; export GOC; \
  	GDC="$(GDC)"; export GDC; \
@@ -484,15 +484,15 @@
  	AR="$(AR)"; export AR; \
  	AS="$(AS)"; export AS; \
  	CC_FOR_BUILD="$(CC_FOR_BUILD)"; export CC_FOR_BUILD; \
-@@ -293,6 +295,7 @@ BASE_TARGET_EXPORTS = \
+@@ -299,6 +301,7 @@ BASE_TARGET_EXPORTS = \
  	GFORTRAN="$(GFORTRAN_FOR_TARGET) $(XGCC_FLAGS_FOR_TARGET) $$TFLAGS"; export GFORTRAN; \
  	GOC="$(GOC_FOR_TARGET) $(XGCC_FLAGS_FOR_TARGET) $$TFLAGS"; export GOC; \
  	GDC="$(GDC_FOR_TARGET) $(XGCC_FLAGS_FOR_TARGET) $$TFLAGS"; export GDC; \
 +	GM2="$(GM2_FOR_TARGET) $(XGCC_FLAGS_FOR_TARGET) $$TFLAGS"; export GM2; \
  	DLLTOOL="$(DLLTOOL_FOR_TARGET)"; export DLLTOOL; \
+ 	DSYMUTIL="$(DSYMUTIL_FOR_TARGET)"; export DSYMUTIL; \
  	LD="$(COMPILER_LD_FOR_TARGET)"; export LD; \
- 	LDFLAGS="$(LDFLAGS_FOR_TARGET)"; export LDFLAGS; \
-@@ -359,6 +362,7 @@ DLLTOOL_FOR_BUILD = @DLLTOOL_FOR_BUILD@
+@@ -367,6 +370,7 @@ DSYMUTIL_FOR_BUILD = @DSYMUTIL_FOR_BUILD
  GFORTRAN_FOR_BUILD = @GFORTRAN_FOR_BUILD@
  GOC_FOR_BUILD = @GOC_FOR_BUILD@
  GDC_FOR_BUILD = @GDC_FOR_BUILD@
@@ -500,7 +500,7 @@
  LDFLAGS_FOR_BUILD = @LDFLAGS_FOR_BUILD@
  LD_FOR_BUILD = @LD_FOR_BUILD@
  NM_FOR_BUILD = @NM_FOR_BUILD@
-@@ -428,6 +432,7 @@ CXXFLAGS = @CXXFLAGS@
+@@ -437,6 +441,7 @@ CXXFLAGS = @CXXFLAGS@
  LIBCXXFLAGS = $(CXXFLAGS) -fno-implicit-templates
  GOCFLAGS = $(CFLAGS)
  GDCFLAGS = $(CFLAGS)
@@ -508,7 +508,7 @@
  
  CREATE_GCOV = create_gcov
  
-@@ -565,7 +570,7 @@ STAGEprofile_TFLAGS = $(STAGE2_TFLAGS)
+@@ -574,7 +579,7 @@ STAGEprofile_TFLAGS = $(STAGE2_TFLAGS)
  STAGEtrain_CFLAGS = $(filter-out -fchecking=1,$(STAGE3_CFLAGS))
  STAGEtrain_TFLAGS = $(filter-out -fchecking=1,$(STAGE3_TFLAGS))
  
@@ -517,15 +517,15 @@
  STAGEfeedback_TFLAGS = $(STAGE4_TFLAGS)
  
  STAGEautoprofile_CFLAGS = $(STAGE2_CFLAGS) -g
-@@ -595,6 +600,7 @@ RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) @
+@@ -604,6 +609,7 @@ RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) @
  GFORTRAN_FOR_TARGET=$(STAGE_CC_WRAPPER) @GFORTRAN_FOR_TARGET@
  GOC_FOR_TARGET=$(STAGE_CC_WRAPPER) @GOC_FOR_TARGET@
  GDC_FOR_TARGET=$(STAGE_CC_WRAPPER) @GDC_FOR_TARGET@
 +GM2_FOR_TARGET=$(STAGE_CC_WRAPPER) @GM2_FOR_TARGET@
  DLLTOOL_FOR_TARGET=@DLLTOOL_FOR_TARGET@
+ DSYMUTIL_FOR_TARGET=@DSYMUTIL_FOR_TARGET@
  LD_FOR_TARGET=@LD_FOR_TARGET@
- 
-@@ -645,7 +651,7 @@ all:
+@@ -655,7 +661,7 @@ all:
  
  # This is the list of directories that may be needed in RPATH_ENVVAR
  # so that programs built for the target machine work.
@@ -534,7 +534,7 @@
  
  @if target-libstdc++-v3
  TARGET_LIB_PATH_libstdc++-v3 = $$r/$(TARGET_SUBDIR)/libstdc++-v3/src/.libs:
-@@ -671,6 +677,10 @@ TARGET_LIB_PATH_libssp = $$r/$(TARGET_SU
+@@ -681,6 +687,10 @@ TARGET_LIB_PATH_libssp = $$r/$(TARGET_SU
  TARGET_LIB_PATH_libphobos = $$r/$(TARGET_SUBDIR)/libphobos/src/.libs:
  @endif target-libphobos
  
@@ -545,7 +545,7 @@
  @if target-libgomp
  TARGET_LIB_PATH_libgomp = $$r/$(TARGET_SUBDIR)/libgomp/.libs:
  @endif target-libgomp
-@@ -820,6 +830,8 @@ BASE_FLAGS_TO_PASS = \
+@@ -831,6 +841,8 @@ BASE_FLAGS_TO_PASS = \
  	"GOCFLAGS_FOR_TARGET=$(GOCFLAGS_FOR_TARGET)" \
  	"GDC_FOR_TARGET=$(GDC_FOR_TARGET)" \
  	"GDCFLAGS_FOR_TARGET=$(GDCFLAGS_FOR_TARGET)" \
@@ -554,7 +554,7 @@
  	"LD_FOR_TARGET=$(LD_FOR_TARGET)" \
  	"LIPO_FOR_TARGET=$(LIPO_FOR_TARGET)" \
  	"LDFLAGS_FOR_TARGET=$(LDFLAGS_FOR_TARGET)" \
-@@ -892,6 +904,7 @@ EXTRA_HOST_FLAGS = \
+@@ -904,6 +916,7 @@ EXTRA_HOST_FLAGS = \
  	'GFORTRAN=$(GFORTRAN)' \
  	'GOC=$(GOC)' \
  	'GDC=$(GDC)' \
@@ -562,7 +562,7 @@
  	'LD=$(LD)' \
  	'LIPO=$(LIPO)' \
  	'NM=$(NM)' \
-@@ -918,6 +931,7 @@ POSTSTAGE1_FLAGS_TO_PASS = \
+@@ -930,6 +943,7 @@ POSTSTAGE1_FLAGS_TO_PASS = \
  	CC="$${CC}" CC_FOR_BUILD="$${CC_FOR_BUILD}" \
  	CXX="$${CXX}" CXX_FOR_BUILD="$${CXX_FOR_BUILD}" \
  	GDC="$${GDC}" GDC_FOR_BUILD="$${GDC_FOR_BUILD}" \
@@ -570,7 +570,7 @@
  	GNATBIND="$${GNATBIND}" \
  	LDFLAGS="$${LDFLAGS}" \
  	HOST_LIBS="$${HOST_LIBS}" \
-@@ -952,6 +966,8 @@ EXTRA_TARGET_FLAGS = \
+@@ -965,6 +979,8 @@ EXTRA_TARGET_FLAGS = \
  	'GOCFLAGS=$$(GOCFLAGS_FOR_TARGET)' \
  	'GDC=$$(GDC_FOR_TARGET) $$(XGCC_FLAGS_FOR_TARGET) $$(TFLAGS)' \
  	'GDCFLAGS=$$(GDCFLAGS_FOR_TARGET)' \
@@ -579,7 +579,7 @@
  	'LD=$(COMPILER_LD_FOR_TARGET)' \
  	'LDFLAGS=$$(LDFLAGS_FOR_TARGET)' \
  	'LIBCFLAGS=$$(LIBCFLAGS_FOR_TARGET)' \
-@@ -978,6 +994,7 @@ TARGET_FLAGS_TO_PASS = $(BASE_FLAGS_TO_P
+@@ -991,6 +1007,7 @@ TARGET_FLAGS_TO_PASS = $(BASE_FLAGS_TO_P
  # cross-building scheme.
  EXTRA_GCC_FLAGS = \
  	"GCC_FOR_TARGET=$(GCC_FOR_TARGET)" \
@@ -587,7 +587,7 @@
  	"`echo 'STMP_FIXPROTO=$(STMP_FIXPROTO)' | sed -e s'/[^=][^=]*=$$/XFOO=/'`" \
  	"`echo 'LIMITS_H_TEST=$(LIMITS_H_TEST)' | sed -e s'/[^=][^=]*=$$/XFOO=/'`"
  
-@@ -1067,6 +1084,7 @@ configure-target:  \
+@@ -1080,6 +1097,7 @@ configure-target:  \
      maybe-configure-target-zlib \
      maybe-configure-target-rda \
      maybe-configure-target-libada \
@@ -595,7 +595,7 @@
      maybe-configure-target-libgomp \
      maybe-configure-target-libitm \
      maybe-configure-target-libatomic
-@@ -1240,6 +1258,7 @@ all-target: maybe-all-target-libffi
+@@ -1253,6 +1271,7 @@ all-target: maybe-all-target-libffi
  all-target: maybe-all-target-zlib
  all-target: maybe-all-target-rda
  all-target: maybe-all-target-libada
@@ -603,7 +603,7 @@
  @if target-libgomp-no-bootstrap
  all-target: maybe-all-target-libgomp
  @endif target-libgomp-no-bootstrap
-@@ -1338,6 +1357,7 @@ info-target: maybe-info-target-libffi
+@@ -1351,6 +1370,7 @@ info-target: maybe-info-target-libffi
  info-target: maybe-info-target-zlib
  info-target: maybe-info-target-rda
  info-target: maybe-info-target-libada
@@ -611,7 +611,7 @@
  info-target: maybe-info-target-libgomp
  info-target: maybe-info-target-libitm
  info-target: maybe-info-target-libatomic
-@@ -1429,6 +1449,7 @@ dvi-target: maybe-dvi-target-libffi
+@@ -1442,6 +1462,7 @@ dvi-target: maybe-dvi-target-libffi
  dvi-target: maybe-dvi-target-zlib
  dvi-target: maybe-dvi-target-rda
  dvi-target: maybe-dvi-target-libada
@@ -619,7 +619,7 @@
  dvi-target: maybe-dvi-target-libgomp
  dvi-target: maybe-dvi-target-libitm
  dvi-target: maybe-dvi-target-libatomic
-@@ -1520,6 +1541,7 @@ pdf-target: maybe-pdf-target-libffi
+@@ -1533,6 +1554,7 @@ pdf-target: maybe-pdf-target-libffi
  pdf-target: maybe-pdf-target-zlib
  pdf-target: maybe-pdf-target-rda
  pdf-target: maybe-pdf-target-libada
@@ -627,7 +627,7 @@
  pdf-target: maybe-pdf-target-libgomp
  pdf-target: maybe-pdf-target-libitm
  pdf-target: maybe-pdf-target-libatomic
-@@ -1611,6 +1633,7 @@ html-target: maybe-html-target-libffi
+@@ -1624,6 +1646,7 @@ html-target: maybe-html-target-libffi
  html-target: maybe-html-target-zlib
  html-target: maybe-html-target-rda
  html-target: maybe-html-target-libada
@@ -635,7 +635,7 @@
  html-target: maybe-html-target-libgomp
  html-target: maybe-html-target-libitm
  html-target: maybe-html-target-libatomic
-@@ -1702,6 +1725,7 @@ TAGS-target: maybe-TAGS-target-libffi
+@@ -1715,6 +1738,7 @@ TAGS-target: maybe-TAGS-target-libffi
  TAGS-target: maybe-TAGS-target-zlib
  TAGS-target: maybe-TAGS-target-rda
  TAGS-target: maybe-TAGS-target-libada
@@ -643,7 +643,7 @@
  TAGS-target: maybe-TAGS-target-libgomp
  TAGS-target: maybe-TAGS-target-libitm
  TAGS-target: maybe-TAGS-target-libatomic
-@@ -1793,6 +1817,7 @@ install-info-target: maybe-install-info-
+@@ -1806,6 +1830,7 @@ install-info-target: maybe-install-info-
  install-info-target: maybe-install-info-target-zlib
  install-info-target: maybe-install-info-target-rda
  install-info-target: maybe-install-info-target-libada
@@ -651,7 +651,7 @@
  install-info-target: maybe-install-info-target-libgomp
  install-info-target: maybe-install-info-target-libitm
  install-info-target: maybe-install-info-target-libatomic
-@@ -1884,6 +1909,7 @@ install-pdf-target: maybe-install-pdf-ta
+@@ -1897,6 +1922,7 @@ install-pdf-target: maybe-install-pdf-ta
  install-pdf-target: maybe-install-pdf-target-zlib
  install-pdf-target: maybe-install-pdf-target-rda
  install-pdf-target: maybe-install-pdf-target-libada
@@ -659,7 +659,7 @@
  install-pdf-target: maybe-install-pdf-target-libgomp
  install-pdf-target: maybe-install-pdf-target-libitm
  install-pdf-target: maybe-install-pdf-target-libatomic
-@@ -1975,6 +2001,7 @@ install-html-target: maybe-install-html-
+@@ -1988,6 +2014,7 @@ install-html-target: maybe-install-html-
  install-html-target: maybe-install-html-target-zlib
  install-html-target: maybe-install-html-target-rda
  install-html-target: maybe-install-html-target-libada
@@ -667,7 +667,7 @@
  install-html-target: maybe-install-html-target-libgomp
  install-html-target: maybe-install-html-target-libitm
  install-html-target: maybe-install-html-target-libatomic
-@@ -2066,6 +2093,7 @@ installcheck-target: maybe-installcheck-
+@@ -2079,6 +2106,7 @@ installcheck-target: maybe-installcheck-
  installcheck-target: maybe-installcheck-target-zlib
  installcheck-target: maybe-installcheck-target-rda
  installcheck-target: maybe-installcheck-target-libada
@@ -675,7 +675,7 @@
  installcheck-target: maybe-installcheck-target-libgomp
  installcheck-target: maybe-installcheck-target-libitm
  installcheck-target: maybe-installcheck-target-libatomic
-@@ -2157,6 +2185,7 @@ mostlyclean-target: maybe-mostlyclean-ta
+@@ -2170,6 +2198,7 @@ mostlyclean-target: maybe-mostlyclean-ta
  mostlyclean-target: maybe-mostlyclean-target-zlib
  mostlyclean-target: maybe-mostlyclean-target-rda
  mostlyclean-target: maybe-mostlyclean-target-libada
@@ -683,7 +683,7 @@
  mostlyclean-target: maybe-mostlyclean-target-libgomp
  mostlyclean-target: maybe-mostlyclean-target-libitm
  mostlyclean-target: maybe-mostlyclean-target-libatomic
-@@ -2248,6 +2277,7 @@ clean-target: maybe-clean-target-libffi
+@@ -2261,6 +2290,7 @@ clean-target: maybe-clean-target-libffi
  clean-target: maybe-clean-target-zlib
  clean-target: maybe-clean-target-rda
  clean-target: maybe-clean-target-libada
@@ -691,7 +691,7 @@
  clean-target: maybe-clean-target-libgomp
  clean-target: maybe-clean-target-libitm
  clean-target: maybe-clean-target-libatomic
-@@ -2339,6 +2369,7 @@ distclean-target: maybe-distclean-target
+@@ -2352,6 +2382,7 @@ distclean-target: maybe-distclean-target
  distclean-target: maybe-distclean-target-zlib
  distclean-target: maybe-distclean-target-rda
  distclean-target: maybe-distclean-target-libada
@@ -699,7 +699,7 @@
  distclean-target: maybe-distclean-target-libgomp
  distclean-target: maybe-distclean-target-libitm
  distclean-target: maybe-distclean-target-libatomic
-@@ -2430,6 +2461,7 @@ maintainer-clean-target: maybe-maintaine
+@@ -2443,6 +2474,7 @@ maintainer-clean-target: maybe-maintaine
  maintainer-clean-target: maybe-maintainer-clean-target-zlib
  maintainer-clean-target: maybe-maintainer-clean-target-rda
  maintainer-clean-target: maybe-maintainer-clean-target-libada
@@ -707,7 +707,7 @@
  maintainer-clean-target: maybe-maintainer-clean-target-libgomp
  maintainer-clean-target: maybe-maintainer-clean-target-libitm
  maintainer-clean-target: maybe-maintainer-clean-target-libatomic
-@@ -2577,6 +2609,7 @@ check-target:  \
+@@ -2590,6 +2622,7 @@ check-target:  \
      maybe-check-target-zlib \
      maybe-check-target-rda \
      maybe-check-target-libada \
@@ -715,7 +715,7 @@
      maybe-check-target-libgomp \
      maybe-check-target-libitm \
      maybe-check-target-libatomic
-@@ -2770,6 +2803,7 @@ install-target:  \
+@@ -2783,6 +2816,7 @@ install-target:  \
      maybe-install-target-zlib \
      maybe-install-target-rda \
      maybe-install-target-libada \
@@ -723,7 +723,7 @@
      maybe-install-target-libgomp \
      maybe-install-target-libitm \
      maybe-install-target-libatomic
-@@ -2881,6 +2915,7 @@ install-strip-target:  \
+@@ -2894,6 +2928,7 @@ install-strip-target:  \
      maybe-install-strip-target-zlib \
      maybe-install-strip-target-rda \
      maybe-install-strip-target-libada \
@@ -731,7 +731,7 @@
      maybe-install-strip-target-libgomp \
      maybe-install-strip-target-libitm \
      maybe-install-strip-target-libatomic
-@@ -54794,6 +54829,464 @@ maintainer-clean-target-libada:
+@@ -54807,6 +54842,464 @@ maintainer-clean-target-libada:
  
  
  
@@ -1196,7 +1196,7 @@
  .PHONY: configure-target-libgomp maybe-configure-target-libgomp
  maybe-configure-target-libgomp:
  @if gcc-bootstrap
-@@ -57045,6 +57538,14 @@ check-gcc-go:
+@@ -57058,6 +57551,14 @@ check-gcc-go:
  	(cd gcc && $(MAKE) $(GCC_FLAGS_TO_PASS) check-go);
  check-go: check-gcc-go check-target-libgo check-gotools
  
@@ -1211,7 +1211,7 @@
  .PHONY: check-gcc-brig check-brig
  check-gcc-brig:
  	r=`${PWD_COMMAND}`; export r; \
-@@ -60473,6 +60974,7 @@ configure-target-libffi: stage_last
+@@ -60486,6 +60987,7 @@ configure-target-libffi: stage_last
  configure-target-zlib: stage_last
  configure-target-rda: stage_last
  configure-target-libada: stage_last
@@ -1219,7 +1219,7 @@
  configure-stage1-target-libgomp: maybe-all-stage1-gcc
  configure-stage2-target-libgomp: maybe-all-stage2-gcc
  configure-stage3-target-libgomp: maybe-all-stage3-gcc
-@@ -60508,6 +61010,7 @@ configure-target-libffi: maybe-all-gcc
+@@ -60521,6 +61023,7 @@ configure-target-libffi: maybe-all-gcc
  configure-target-zlib: maybe-all-gcc
  configure-target-rda: maybe-all-gcc
  configure-target-libada: maybe-all-gcc
@@ -1227,7 +1227,7 @@
  configure-target-libgomp: maybe-all-gcc
  configure-target-libitm: maybe-all-gcc
  configure-target-libatomic: maybe-all-gcc
-@@ -61803,6 +62306,7 @@ configure-target-libffi: maybe-all-targe
+@@ -61816,6 +62319,7 @@ configure-target-libffi: maybe-all-targe
  configure-target-zlib: maybe-all-target-libgcc
  configure-target-rda: maybe-all-target-libgcc
  configure-target-libada: maybe-all-target-libgcc
@@ -1235,7 +1235,7 @@
  configure-target-libgomp: maybe-all-target-libgcc
  configure-target-libitm: maybe-all-target-libgcc
  configure-target-libatomic: maybe-all-target-libgcc
-@@ -61850,6 +62354,8 @@ configure-target-rda: maybe-all-target-n
+@@ -61863,6 +62367,8 @@ configure-target-rda: maybe-all-target-n
  
  configure-target-libada: maybe-all-target-newlib maybe-all-target-libgloss
  
@@ -1246,15 +1246,15 @@
  configure-target-libitm: maybe-all-target-newlib maybe-all-target-libgloss
 --- a/src/Makefile.tpl
 +++ b/src/Makefile.tpl
-@@ -161,6 +161,7 @@ BUILD_EXPORTS = \
+@@ -164,6 +164,7 @@ BUILD_EXPORTS = \
  	GOCFLAGS="$(GOCFLAGS_FOR_BUILD)"; export GOCFLAGS; \
  	GDC="$(GDC_FOR_BUILD)"; export GDC; \
  	GDCFLAGS="$(GDCFLAGS_FOR_BUILD)"; export GDCFLAGS; \
 +	GM2="$(GM2_FOR_BUILD)"; export GM2; \
  	DLLTOOL="$(DLLTOOL_FOR_BUILD)"; export DLLTOOL; \
+ 	DSYMUTIL="$(DSYMUTIL_FOR_BUILD)"; export DSYMUTIL; \
  	LD="$(LD_FOR_BUILD)"; export LD; \
- 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"; export LDFLAGS; \
-@@ -198,6 +199,7 @@ HOST_EXPORTS = \
+@@ -202,6 +203,7 @@ HOST_EXPORTS = \
  	GFORTRAN="$(GFORTRAN)"; export GFORTRAN; \
  	GOC="$(GOC)"; export GOC; \
  	GDC="$(GDC)"; export GDC; \
@@ -1262,15 +1262,15 @@
  	AR="$(AR)"; export AR; \
  	AS="$(AS)"; export AS; \
  	CC_FOR_BUILD="$(CC_FOR_BUILD)"; export CC_FOR_BUILD; \
-@@ -296,6 +298,7 @@ BASE_TARGET_EXPORTS = \
+@@ -302,6 +304,7 @@ BASE_TARGET_EXPORTS = \
  	GFORTRAN="$(GFORTRAN_FOR_TARGET) $(XGCC_FLAGS_FOR_TARGET) $$TFLAGS"; export GFORTRAN; \
  	GOC="$(GOC_FOR_TARGET) $(XGCC_FLAGS_FOR_TARGET) $$TFLAGS"; export GOC; \
  	GDC="$(GDC_FOR_TARGET) $(XGCC_FLAGS_FOR_TARGET) $$TFLAGS"; export GDC; \
 +	GM2="$(GM2_FOR_TARGET) $(XGCC_FLAGS_FOR_TARGET) $$TFLAGS"; export GM2; \
  	DLLTOOL="$(DLLTOOL_FOR_TARGET)"; export DLLTOOL; \
+ 	DSYMUTIL="$(DSYMUTIL_FOR_TARGET)"; export DSYMUTIL; \
  	LD="$(COMPILER_LD_FOR_TARGET)"; export LD; \
- 	LDFLAGS="$(LDFLAGS_FOR_TARGET)"; export LDFLAGS; \
-@@ -362,6 +365,7 @@ DLLTOOL_FOR_BUILD = @DLLTOOL_FOR_BUILD@
+@@ -370,6 +373,7 @@ DSYMUTIL_FOR_BUILD = @DSYMUTIL_FOR_BUILD
  GFORTRAN_FOR_BUILD = @GFORTRAN_FOR_BUILD@
  GOC_FOR_BUILD = @GOC_FOR_BUILD@
  GDC_FOR_BUILD = @GDC_FOR_BUILD@
@@ -1278,7 +1278,7 @@
  LDFLAGS_FOR_BUILD = @LDFLAGS_FOR_BUILD@
  LD_FOR_BUILD = @LD_FOR_BUILD@
  NM_FOR_BUILD = @NM_FOR_BUILD@
-@@ -431,6 +435,7 @@ CXXFLAGS = @CXXFLAGS@
+@@ -440,6 +444,7 @@ CXXFLAGS = @CXXFLAGS@
  LIBCXXFLAGS = $(CXXFLAGS) -fno-implicit-templates
  GOCFLAGS = $(CFLAGS)
  GDCFLAGS = $(CFLAGS)
@@ -1286,15 +1286,15 @@
  
  CREATE_GCOV = create_gcov
  
-@@ -518,6 +523,7 @@ RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) @
+@@ -527,6 +532,7 @@ RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) @
  GFORTRAN_FOR_TARGET=$(STAGE_CC_WRAPPER) @GFORTRAN_FOR_TARGET@
  GOC_FOR_TARGET=$(STAGE_CC_WRAPPER) @GOC_FOR_TARGET@
  GDC_FOR_TARGET=$(STAGE_CC_WRAPPER) @GDC_FOR_TARGET@
 +GM2_FOR_TARGET=$(STAGE_CC_WRAPPER) @GM2_FOR_TARGET@
  DLLTOOL_FOR_TARGET=@DLLTOOL_FOR_TARGET@
+ DSYMUTIL_FOR_TARGET=@DSYMUTIL_FOR_TARGET@
  LD_FOR_TARGET=@LD_FOR_TARGET@
- 
-@@ -647,6 +653,7 @@ EXTRA_HOST_FLAGS = \
+@@ -658,6 +664,7 @@ EXTRA_HOST_FLAGS = \
  	'GFORTRAN=$(GFORTRAN)' \
  	'GOC=$(GOC)' \
  	'GDC=$(GDC)' \
@@ -1302,7 +1302,7 @@
  	'LD=$(LD)' \
  	'LIPO=$(LIPO)' \
  	'NM=$(NM)' \
-@@ -673,6 +680,7 @@ POSTSTAGE1_FLAGS_TO_PASS = \
+@@ -684,6 +691,7 @@ POSTSTAGE1_FLAGS_TO_PASS = \
  	CC="$${CC}" CC_FOR_BUILD="$${CC_FOR_BUILD}" \
  	CXX="$${CXX}" CXX_FOR_BUILD="$${CXX_FOR_BUILD}" \
  	GDC="$${GDC}" GDC_FOR_BUILD="$${GDC_FOR_BUILD}" \
@@ -1310,7 +1310,7 @@
  	GNATBIND="$${GNATBIND}" \
  	LDFLAGS="$${LDFLAGS}" \
  	HOST_LIBS="$${HOST_LIBS}" \
-@@ -707,6 +715,8 @@ EXTRA_TARGET_FLAGS = \
+@@ -719,6 +727,8 @@ EXTRA_TARGET_FLAGS = \
  	'GOCFLAGS=$$(GOCFLAGS_FOR_TARGET)' \
  	'GDC=$$(GDC_FOR_TARGET) $$(XGCC_FLAGS_FOR_TARGET) $$(TFLAGS)' \
  	'GDCFLAGS=$$(GDCFLAGS_FOR_TARGET)' \
@@ -1319,7 +1319,7 @@
  	'LD=$(COMPILER_LD_FOR_TARGET)' \
  	'LDFLAGS=$$(LDFLAGS_FOR_TARGET)' \
  	'LIBCFLAGS=$$(LIBCFLAGS_FOR_TARGET)' \
-@@ -733,6 +743,7 @@ TARGET_FLAGS_TO_PASS = $(BASE_FLAGS_TO_P
+@@ -745,6 +755,7 @@ TARGET_FLAGS_TO_PASS = $(BASE_FLAGS_TO_P
  # cross-building scheme.
  EXTRA_GCC_FLAGS = \
  	"GCC_FOR_TARGET=$(GCC_FOR_TARGET)" \
@@ -1357,7 +1357,7 @@
 +}
 --- a/src/gcc/d/d-spec.cc
 +++ b/src/gcc/d/d-spec.cc
-@@ -490,3 +490,10 @@ lang_specific_pre_link (void)
+@@ -525,3 +525,10 @@ lang_specific_pre_link (void)
  
  int lang_specific_extra_outfiles = 0;  /* Not used for D.  */
  
@@ -2170,7 +2170,7 @@
 +#endif /* #if ENABLE_ANALYZER */
 --- a/src/gcc/Makefile.in
 +++ b/src/gcc/Makefile.in
-@@ -1266,6 +1266,7 @@ ANALYZER_OBJS = \
+@@ -1259,6 +1259,7 @@ ANALYZER_OBJS = \
  	analyzer/region-model-reachability.o \
  	analyzer/sm.o \
  	analyzer/sm-file.o \
@@ -2178,7 +2178,7 @@
  	analyzer/sm-malloc.o \
  	analyzer/sm-pattern-test.o \
  	analyzer/sm-sensitive.o \
-@@ -2708,7 +2709,7 @@ ALL_GTFILES_H := $(sort $(GTFILES_H) $(G
+@@ -2701,7 +2702,7 @@ ALL_GTFILES_H := $(sort $(GTFILES_H) $(G
  $(ALL_GTFILES_H) gtype-desc.c gtype-desc.h gtype.state: s-gtype ; @true
  
  ### Common flags to gengtype [e.g. -v or -B backupdir]

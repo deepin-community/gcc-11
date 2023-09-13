@@ -8,7 +8,7 @@
 +pythondir = $(datadir)/gcc/python
  endif
  
- all-local: gdb.py
+ if GLIBCXX_BUILD_DEBUG
 --- a/src/libstdc++-v3/python/Makefile.in
 +++ b/src/libstdc++-v3/python/Makefile.in
 @@ -401,7 +401,7 @@ WARN_CXXFLAGS = \
@@ -18,5 +18,5 @@
 -@ENABLE_PYTHONDIR_FALSE@pythondir = $(datadir)/gcc-$(gcc_version)/python
 +@ENABLE_PYTHONDIR_FALSE@pythondir = $(datadir)/gcc/python
  @ENABLE_PYTHONDIR_TRUE@pythondir = $(prefix)/$(python_mod_dir)
- nobase_python_DATA = \
-     libstdcxx/v6/printers.py \
+ @GLIBCXX_BUILD_DEBUG_FALSE@debug_gdb_py = 
+ @GLIBCXX_BUILD_DEBUG_TRUE@debug_gdb_py = YES

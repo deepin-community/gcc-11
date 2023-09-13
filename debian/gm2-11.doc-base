@@ -1,0 +1,14 @@
+Document: gm2-11
+Title: The GNU Modula-2 Compiler 
+Author: Various
+Abstract: This manual documents how to run, install and port `gm2',
+ as well as its new features and incompatibilities, and how to report bugs.
+Section: Programming/Modula-2
+
+Format: html
+Index: /usr/share/doc/gcc-11-base/m2/gm2.html
+Files: /usr/share/doc/gcc-11-base/m2/gm2.html
+
+Format: info
+Index: /usr/share/info/gm2-11.info.gz
+Files: /usr/share/info/gm2-11*

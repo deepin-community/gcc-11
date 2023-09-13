@@ -96,8 +96,8 @@ EPOCH := 1
 DEB_EVERSION := $(EPOCH):$(DEB_VERSION)
 BASE_VERSION := $(shell echo $(DEB_VERSION) | sed -e 's/\([0-9][0-9]*\).*-.*/\1/')
 
-NJOBS := -j 32
-USE_CPUS := 32
+NJOBS :=
+USE_CPUS := 1
 ifneq (,$(filter parallel=%,$(subst $(COMMA), ,$(DEB_BUILD_OPTIONS))))
   USE_CPUS := $(subst parallel=,,$(filter parallel=%,$(subst $(COMMA), ,$(DEB_BUILD_OPTIONS))))
   NJOBS := -j $(USE_CPUS)
@@ -516,16 +516,16 @@ endif
 
 # allows to wrote backtraces for ICEs
 #unstripped_exe = yes
-ifneq (,$(filter $(DEB_TARGET_ARCH), amd64 armel armhf arm64 mipsel mips64el ppc64el s390x))
-  unstripped_exe = yes
-endif
+#ifneq (,$(filter $(DEB_TARGET_ARCH), amd64 armel armhf arm64 mipsel mips64el ppc64el s390x))
+#  unstripped_exe = yes
+#endif
 
 # common things ---------------
 # build common packages, where package names don't differ in different
 # gcc versions (fixincludes, ...)
-with_common_pkgs := yes
+#with_common_pkgs := yes
 # ... and some libraries, which do not change (libgcc1, libssp0).
-with_common_libs := yes
+#with_common_libs := yes
 # XXX: should with_common_libs be "yes" only if this is the default compiler
 # version on the targeted arch?
 
@@ -845,10 +845,8 @@ endif
 
 ifeq (,$(filter $(DEB_STAGE),stage1 stage2))
 # Ada --------------------
-ada_no_cpus	:= m32r sh3 sh3eb sh4eb
-ada_no_cpus	+= ia64
+ada_no_cpus	:= arc ia64 loong64 m32r sh3 sh3eb sh4eb
 ada_no_cpus	+= m68k   # https://gcc.gnu.org/PR98341
-ada_no_cpus	+= alpha  # https://gcc.gnu.org/PR98724
 ada_no_systems	:= 
 ada_no_cross	:= no
 ada_no_snap	:= no
@@ -1005,7 +1003,7 @@ ifneq (,$(findstring gccgo, $(PKGSOURCE)))
   with_libcc1 :=
 endif
 
-go_no_cpus := avr hppa
+go_no_cpus := arc avr hppa loong64
 go_no_cpus += m68k # See PR 79281 / PR 83314
 go_no_systems := kfreebsd
 ifneq (,$(filter $(distrelease),precise))
@@ -1070,16 +1068,16 @@ with_brig := $(call envfilt, brig, , , $(with_brig))
 
 ifeq ($(with_brig),yes)
   with_brigdev := yes
-  ifeq ($(with_common_libs),yes)
+  #ifeq ($(with_common_libs),yes)
     with_libhsailrt := yes
-  endif
+  #endif
   enabled_languages += brig
 endif
 
 # D ---------------------------
 d_no_cross := yes
 d_no_snap :=
-d_no_cpus := s390
+d_no_cpus := arc loong64 s390
 
 ifneq ($(single_package),yes)
   with_separate_gdc := yes
@@ -1268,7 +1266,7 @@ ifneq ($(with_base_only),yes)
     with_m2 := yes
   endif
 endif
-m2_no_archs = powerpc ppc64 sh4 kfreebsd-amd64 kfreebsd-i386 hurd-i386
+m2_no_archs = loong64 powerpc ppc64 sh4 kfreebsd-amd64 kfreebsd-i386 hurd-i386
 ifneq (,$(filter $(DEB_TARGET_ARCH),$(m2_no_archs)))
     with_m2 := disabled for cpu $(DEB_TARGET_ARCH)
 endif
@@ -1526,11 +1524,11 @@ else
   endif
 
   # libasan -----------------
-  ifeq ($(with_asan)-$(with_common_libs),yes-yes)
+  #ifeq ($(with_asan)-$(with_common_libs),yes-yes)
     ifeq ($(with_asan),yes)
       with_libasan := yes
     endif
-  endif
+  #endif
 
   # liblsan -----------------
   ifeq ($(with_lsan)-$(with_common_libs),yes-yes)
@@ -1540,7 +1538,7 @@ else
   endif
 
   # libtsan -----------------
-  ifeq ($(with_tsan)-$(with_common_libs),yes-yes)
+  ifeq ($(with_tsan),yes)
       with_libtsan := yes
   endif
 
@@ -1662,7 +1660,7 @@ endif
 ifneq (,$(with_rtlibs))
   with_check := disabled for rtlibs stage
 endif
-#check_no_cpus := m68k
+check_no_cpus := alpha
 check_no_systems := # gnu kfreebsd-gnu
 ifneq (,$(filter $(DEB_TARGET_ARCH_CPU),$(check_no_cpus)))
   with_check := disabled for cpu $(DEB_TARGET_ARCH_CPU)

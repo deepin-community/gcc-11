@@ -2,7 +2,7 @@
 
 --- a/src/gcc/jit/Make-lang.in
 +++ b/src/gcc/jit/Make-lang.in
-@@ -102,6 +102,9 @@ ifneq (,$(findstring mingw,$(target)))
+@@ -136,6 +136,9 @@ ifneq (,$(findstring mingw,$(target)))
  jit_OBJS += jit/jit-w32.o
  endif
  
@@ -22,7 +22,7 @@
  
  #include <pthread.h>
  
-@@ -2775,7 +2776,31 @@ void
+@@ -2777,7 +2778,31 @@ void
  playback::context::
  invoke_embedded_driver (const vec <char *> *argvec)
  {

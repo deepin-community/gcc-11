@@ -111,7 +111,7 @@
 +endif
 --- a/src/gcc/config.gcc
 +++ b/src/gcc/config.gcc
-@@ -2577,6 +2577,11 @@ mips*-*-linux*)				# Linux MIPS, either
+@@ -2593,6 +2593,11 @@ mips*-*-linux*)				# Linux MIPS, either
  			target_cpu_default=MASK_SOFT_FLOAT_ABI
  			enable_mips_multilibs="yes"
  			;;
@@ -123,7 +123,7 @@
  		mipsisa64r6*-*-linux*)
  			default_mips_abi=n32
  			default_mips_arch=mips64r6
-@@ -2587,6 +2592,10 @@ mips*-*-linux*)				# Linux MIPS, either
+@@ -2603,6 +2608,10 @@ mips*-*-linux*)				# Linux MIPS, either
  			default_mips_arch=mips64r2
  			enable_mips_multilibs="yes"
  			;;
@@ -134,7 +134,7 @@
  		mips64*-*-linux* | mipsisa64*-*-linux*)
  			default_mips_abi=n32
  			enable_mips_multilibs="yes"
-@@ -3635,6 +3644,16 @@ case ${target} in
+@@ -3651,6 +3660,16 @@ case ${target} in
  	;;
  esac
  
@@ -151,7 +151,7 @@
  # Build mkoffload tool
  case ${target} in
  *-intelmic-* | *-intelmicemul-*)
-@@ -5306,7 +5325,7 @@ case ${target} in
+@@ -5326,7 +5345,7 @@ case ${target} in
  		;;
  	i[34567]86-*-linux* | x86_64-*-linux*)
  		extra_objs="${extra_objs} gnu-property.o"
@@ -220,3 +220,12 @@
  MULTIARCH_DIRNAME = $(call if_multiarch,aarch64$(AARCH_BE)-linux-gnu)
  
  MULTILIB_OSDIRNAMES += mabi.ilp32=../libilp32$(call if_multiarch,:aarch64$(AARCH_BE)-linux-gnu_ilp32)
+--- a/src/gcc/config/arc/t-multilib-linux
++++ b/src/gcc/config/arc/t-multilib-linux
+@@ -23,3 +23,6 @@ MULTILIB_DIRNAMES = hs archs hs38 hs38_l
+ # Aliases:
+ MULTILIB_MATCHES += mcpu?arc700=mA7
+ MULTILIB_MATCHES += mcpu?arc700=mARC700
++
++MULTILIB_OSDIRNAMES =
++MULTIARCH_DIRNAME = $(call if_multiarch,arc-linux-gnu)

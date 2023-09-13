@@ -14,8 +14,6 @@
 
 unexport LANG LC_ALL LC_CTYPE LC_COLLATE LC_TIME LC_NUMERIC LC_MESSAGES
 
-export DEB_BUILD_OPTIONS="nocheck"
-
 default: build
 
 include debian/rules.defs

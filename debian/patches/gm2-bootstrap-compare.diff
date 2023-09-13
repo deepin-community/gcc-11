@@ -2,7 +2,7 @@
 
 --- a/src/configure.ac
 +++ b/src/configure.ac
-@@ -3678,6 +3678,7 @@ AC_SUBST(stage2_werror_flag)
+@@ -3697,6 +3697,7 @@ AC_SUBST(stage2_werror_flag)
  compare_exclusions="gcc/cc*-checksum\$(objext) | gcc/ada/*tools/*"
  compare_exclusions="$compare_exclusions | gcc/m2/gm2-compiler-boot/M2Version*"
  compare_exclusions="$compare_exclusions | gcc/m2/gm2-compiler-boot/SYSTEM*"
