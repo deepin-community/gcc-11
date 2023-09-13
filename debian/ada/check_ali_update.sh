@@ -63,11 +63,11 @@ if [ -n "$vanished$changed" ]; then
     echo
     echo 'This may break Ada packages, see https://people.debian.org/~lbrenta/debian-ada-policy.html.'
     echo 'If you are uploading to Debian, please contact debian-ada@lists.debian.org.'
-    #if [ -n "$DEB_FAIL_ON_ADA_LIB_INFO_CHANGE" ]; then
-    #    echo
-    #    echo 'Build interrupted by DEB_FAIL_ON_ADA_LIB_INFO_CHANGE (from env or rules.defs).'
-    #	 exit 1
-    #fi
+    if [ -n "$DEB_FAIL_ON_ADA_LIB_INFO_CHANGE" ]; then
+        echo
+        echo 'Build interrupted by DEB_FAIL_ON_ADA_LIB_INFO_CHANGE (from env or rules.defs).'
+	exit 1
+    fi
 fi
 
 exit 0

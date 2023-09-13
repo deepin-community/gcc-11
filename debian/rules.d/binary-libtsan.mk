@@ -28,8 +28,7 @@ define __do_tsan
 	rm -rf $(d_l) $(d_d)
 	dh_installdirs -p$(p_l) $(usr_lib$(2))
 	$(dh_compat2) dh_movefiles -p$(p_l) \
-		$(usr_lib$(2))/libtsan.so.* \
-		$(usr_lib$(2))/libtsan_preinit.o
+		$(usr_lib$(2))/libtsan.so.*
 
 	debian/dh_doclink -p$(p_l) $(p_lbase)
 	$(if $(with_dbg),debian/dh_doclink -p$(p_d) $(p_lbase))
@@ -38,6 +37,9 @@ define __do_tsan
 		mkdir -p debian/$(p_l)/usr/share/lintian/overrides; \
 		cp debian/$(p_l).overrides debian/$(p_l)/usr/share/lintian/overrides/$(p_l); \
 	fi
+	mkdir -p debian/$(p_l)/usr/share/lintian/overrides
+	echo "$(p_l): unstripped-binary-or-object" \
+	    >> debian/$(p_l)/usr/share/lintian/overrides/$(p_l)
 
 	$(if $(strip_sanitizer), $(call do_strip_lib_dbg, $(p_l), $(p_d), $(v_dbg),,))
 	$(cross_makeshlibs) dh_makeshlibs $(ldconfig_arg) -p$(p_l)

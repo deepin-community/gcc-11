@@ -195,6 +195,7 @@ define __do_gcc_devels2
 	))
 	$(if $(1),,$(if $(filter yes, $(with_tsan)),
 		$(call install_gcc_lib,libtsan,$(TSAN_SONAME),$(1),$(2))
+		mv $(4)/libtsan_preinit.o debian/$(2)/$(3)/;
 	))
 	$(if $(filter yes, $(with_ubsan)),
 		$(call install_gcc_lib,libubsan,$(UBSAN_SONAME),$(1),$(2))

@@ -23,7 +23,7 @@ Author: Nicolas Boulenguez <nicolas@debian.org>
    s-inmaop.adb<libgnarl/s-inmaop__posix.adb \
 --- a/src/Makefile.def
 +++ b/src/Makefile.def
-@@ -387,6 +387,8 @@ dependencies = { module=all-target-libad
+@@ -388,6 +388,8 @@ dependencies = { module=all-target-libad
  dependencies = { module=all-gnattools; on=all-target-libada; };
  dependencies = { module=all-gnattools; on=all-target-libstdc++-v3; };
  
@@ -34,7 +34,7 @@ Author: Nicolas Boulenguez <nicolas@debian.org>
  dependencies = { module=all-lto-plugin; on=all-libiberty; };
 --- a/src/gcc/ada/gcc-interface/Makefile.in
 +++ b/src/gcc/ada/gcc-interface/Makefile.in
-@@ -703,6 +703,7 @@ gnatlib-shared-default:
+@@ -711,6 +711,7 @@ gnatlib-shared-default:
  		$(GNATRTL_TASKING_OBJS) \
  		$(SO_OPTS)libgnarl$(hyphen)$(LIBRARY_VERSION)$(soext) \
  		libgnat$(hyphen)$(LIBRARY_VERSION).so \

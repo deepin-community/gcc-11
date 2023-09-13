@@ -363,7 +363,9 @@ ifeq ($(with_phobos),yes)
 endif
 
 ifeq ($(with_d),yes)
-  ifneq ($(with_phobos),yes)
+  ifneq (,$(filter $(DEB_TARGET_ARCH), $(druntime_only_archs)))
+    CONFARGS += --with-libphobos-druntime-only=yes
+  else ifneq ($(with_phobos),yes)
     CONFARGS += --disable-libphobos
   endif
 endif
@@ -401,10 +403,14 @@ endif
 
 ifneq (,$(findstring powerpc64le-linux,$(DEB_TARGET_GNU_TYPE)))
     CONFARGS += --enable-secureplt
-    ifneq (,$(filter $(distrelease), jessie trusty))
-      CONFARGS += --with-cpu=power7 --with-tune=power8
-    else
-      CONFARGS += --with-cpu=power8
+    ifeq ($(derivative),Ubuntu)
+      ifneq (,$(filter $(distrelease), jessie trusty))
+	CONFARGS += --with-cpu=power7 --with-tune=power8
+      else ifneq (,$(filter $(distrelease), xenial bionic focal hirsute impish))
+	CONFARGS += --with-cpu=power8
+      else
+	CONFARGS += --with-cpu=power9
+      endif
     endif
     CONFARGS += --enable-targets=powerpcle-linux
     CONFARGS += --disable-multilib
@@ -447,6 +453,10 @@ endif
 
 ifneq (,$(findstring softfloat,$(DEB_TARGET_GNU_CPU)))
   CONFARGS += --with-float=soft
+endif
+
+ifneq (,$(findstring arc-linux,$(DEB_TARGET_GNU_TYPE)))
+  CONFARGS += --disable-multilib
 endif
 
 ifneq (,$(findstring arm-vfp,$(DEB_TARGET_GNU_CPU)))
@@ -541,15 +551,17 @@ endif
 
 ifneq (,$(findstring riscv64-linux,$(DEB_TARGET_GNU_TYPE)))
   CONFARGS += --disable-multilib
-  CONFARGS += --with-arch=rv64imafdc --with-abi=lp64d
+  CONFARGS += --with-arch=rv64gc --with-abi=lp64d
 endif
 
 ifneq (,$(findstring s390x-linux,$(DEB_TARGET_GNU_TYPE)))
   ifeq ($(derivative),Ubuntu)
     ifneq (,$(filter $(distrelease),xenial bionic focal))
       CONFARGS += --with-arch=zEC12
-    else
+    else ifneq (,$(filter $(distrelease),jammy kinetic))
       CONFARGS += --with-arch=z13 --with-tune=z15
+    else
+      CONFARGS += --with-arch=z13 --with-tune=z16
     endif
   else # Debian
     CONFARGS += --with-arch=z196
@@ -566,7 +578,7 @@ endif
 
 ifneq (,$(filter $(derivative),Ubuntu))
   ifneq (,$(filter $(DEB_TARGET_ARCH), amd64 i386 x32))
-    ifneq (,$(filter $(distrelease),precise xenial bionic focal))
+    ifneq (,$(filter $(distrelease),precise xenial bionic))
       CONFARGS += --disable-cet
     else
       CONFARGS += --enable-cet
@@ -1328,7 +1340,7 @@ endif
 	fi
 
 ifeq ($(with_libgnat)-$(build_type),yes-build-native)
-	sh debian/ada/check_ali_update.sh /$(gcc_lib_dir) build/gcc/ada/rts
+	-sh debian/ada/check_ali_update.sh /$(gcc_lib_dir) build/gcc/ada/rts
 endif
 
 	touch $(build_stamp)

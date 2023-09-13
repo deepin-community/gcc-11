@@ -2,7 +2,7 @@
 
 --- a/src/libstdc++-v3/doc/doxygen/user.cfg.in
 +++ b/src/libstdc++-v3/doc/doxygen/user.cfg.in
-@@ -2203,7 +2203,7 @@ MAN_OUTPUT             = man
+@@ -2145,7 +2145,7 @@ MAN_OUTPUT             = man
  # The default value is: .3.
  # This tag requires that the tag GENERATE_MAN is set to YES.
  
@@ -13,7 +13,7 @@
  # MAN_OUTPUT in which the man pages are placed. If defaults to man followed by
 --- a/src/libstdc++-v3/scripts/run_doxygen
 +++ b/src/libstdc++-v3/scripts/run_doxygen
-@@ -243,6 +243,9 @@ fi
+@@ -262,6 +262,9 @@ fi
  if $do_man; then
  echo ::
  echo :: Fixing up the man pages...
@@ -23,7 +23,7 @@
  cd $outdir/man/man3
  
  # File names with embedded spaces (EVIL!) need to be....?  renamed or removed?
-@@ -264,7 +267,7 @@ rm -f *.h.3 *.hpp.3 *config* *.cc.3 *.tc
+@@ -283,7 +286,7 @@ rm -f *.h.3 *.hpp.3 *config* *.cc.3 *.tc
  # and I'm off getting coffee then anyhow, so I didn't care enough to make
  # this super-fast.
  g++ ${srcdir}/doc/doxygen/stdheader.cc -o ./stdheader
@@ -32,7 +32,7 @@
  for f in $problematic; do
      # this is also slow, but safe and easy to debug
      oldh=`sed -n '/fC#include </s/.*<\(.*\)>.*/\1/p' $f`
-@@ -277,7 +280,7 @@ rm stdheader
+@@ -296,7 +299,7 @@ rm stdheader
  # Some of the pages for generated modules have text that confuses certain
  # implementations of man(1), e.g. on GNU/Linux.  We need to have another
  # top-level *roff tag to /stop/ the .SH NAME entry.
@@ -41,7 +41,7 @@
  #problematic='Containers.3 Sequences.3 Assoc_containers.3 Iterator_types.3'
  
  for f in $problematic; do
-@@ -291,7 +294,7 @@ a\
+@@ -310,7 +313,7 @@ a\
  done
  
  # Also, break this (generated) line up.  It's ugly as sin.
@@ -50,7 +50,7 @@
  for f in $problematic; do
      sed 's/Definition at line/\
  .PP\
-@@ -400,8 +403,8 @@ for f in ios streambuf istream ostream i
+@@ -419,8 +422,8 @@ for f in ios streambuf istream ostream i
  	 istringstream ostringstream stringstream filebuf ifstream \
  	 ofstream fstream string;
  do

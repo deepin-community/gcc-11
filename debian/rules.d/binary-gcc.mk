@@ -292,9 +292,9 @@ ifeq ($(with_gomp),yes)
 endif
 ifeq ($(with_itm),yes)
 	-$(MAKE) -C $(buildlibdir)/libitm stamp-build-info
-	if [ -f $(buildlibdir)/libitm/libitm$(pkg_ver).info ]; then \
+	if [ -f $(buildlibdir)/libitm/$(cmd_prefix)libitm$(pkg_ver).info ]; then \
 	  cp -p $(buildlibdir)/libitm/$(cmd_prefix)libitm$(pkg_ver).info \
-		$(d_doc)/$(PF)/share/info/; \
+		$(d_doc)/$(PF)/share/info/libitm$(pkg_ver).info; \
 	fi
 endif
 
