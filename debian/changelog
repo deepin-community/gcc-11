@@ -1,8 +1,8 @@
-gcc-11 (11.4.0-3) UNRELEASED; urgency=medium
+gcc-11 (11.4.0-3) unstable; urgency=medium
 
   * Add pie support on Deepin and Uos.
 
- -- Tianyu Chen <chentianyu1@uniontech.com>  Wed, 15 Mar 2023 16:24:58 +0800
+ -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 15 Sep 2023 18:19:33 +0800
 
 gcc-11 (11.2.0-deepin2) unstable; urgency=medium
 
